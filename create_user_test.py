@@ -24,23 +24,23 @@ def positive_assert(first_name):
 # Función de prueba negativa
 def negative_assert_symbol(first_name):
     user_body = get_user_body(first_name)
-    response = sender_stand_request.post_new_user(user_body)
+    user_response = sender_stand_request.post_new_user(user_body)
 
     assert user_response.status_code == 400
-    assert response.json()["code"] == 400
+    assert user_response.json()["code"] == 400
 
-    assert response.json()["message"] == "Has introducido un nombre de usuario no válido. " \
+    assert user_response.json()["message"] == "Has introducido un nombre de usuario no válido. " \
                                          "El nombre solo puede contener letras del alfabeto latino,  " \
                                          "la longitud debe ser de 2 a 15 caracteres"
 
 # Función de prueba negativa vacía
 def negative_assert_no_first_name(user_body):
-    response = sender_stand_request.post_new_user(user_body)
+    user_response = sender_stand_request.post_new_user(user_body)
 
     assert user_response.status_code == 400
-    assert response.json()["code"] == 400
+    assert user_response.json()["code"] == 400
 
-    assert response.json()["message"] == "No se enviaron todos los parámetros necesarios"
+    assert user_response.json()["message"] == "No se enviaron todos los parámetros necesarios"
 
 # Prueba 1.
 def test_create_user_2_letter_in_first_name_get_success_response():
@@ -67,11 +67,11 @@ def test_create_user_has_number_in_first_name_get_error_response():
 def test_create_user_no_first_name_get_error_response():
     user_body = data.user_body.copy()
     user_body.pop("firstName")
-    negative_assert_no_firstname(user_body)
+    negative_assert_no_first_name(user_body)
 # Prueba 9
 def test_create_user_empty_first_name_get_error_response():
     user_body = get_user_body("")
-    negative_assert_no_firstname(user_body)
+    negative_assert_no_first_name(user_body)
 # Prueba 10
 def test_create_user_number_type_first_name_get_error_response():
     user_body = get_user_body(12)
